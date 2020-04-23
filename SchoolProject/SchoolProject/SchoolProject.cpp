@@ -3,25 +3,51 @@
 using namespace std;
 struct CAFFE
 {
+    string dof;
     int table;
-    char waiterName;
-    char clientOrder;
-    int time;
-    float bill;
+    string waiterName;
+    string clientOrder;
+    string time;
+    string bill;
+    int id=0;
 };
-void createOrder(CAFFE* orders, int& orderCount, int& maxId)
+void createOrder(CAFFE* orders, int& orderCount, int& maxId, CAFFE newOrder)
+{
+    newOrder.id = maxId++;
+    orders[orderCount] = newOrder;
+    orderCount++;
+}
+void createOrderMenu(CAFFE* orders, int& orderCount, int& maxId)
 {
     CAFFE order;
     cout << "Table number: ";
     cin >> order.table;
+    cout << endl;
     cout << "Waiter name: ";
-    cin >> order.waiterName;
+    getline(cin,order.waiterName);
+    cout << endl;
     cout << "What did the client order?: ";
-    cin >> order.clientOrder;
+    getline(cin, order.clientOrder);
+    cout << endl;
     cout << "For how long stayed the client?: ";
     cin >> order.time;
+    cout << endl;
     cout << "How much did they pay?: ";
     cin >> order.bill;
+    cout << endl;
+    cout << "What day is it?: ";
+    cin >> order.dof;
+    cout << endl;
+    
+    createOrder(orders, orderCount, maxId, order);
+}
+void showOrder(CAFFE* orders, int& orderCount, int& maxId)
+{
+    cout << "Here are all the orders: " << endl;
+    for (int i = 0; i < orderCount; i++)
+    {
+        cout << orders[i].id << '.'<<"Day: "<< orders[i].dof << " | " <<"Waiter Name:"<< orders[i].waiterName << " | " <<"Table: "<< orders[i].table << " | " <<"Order:"<< orders[i].clientOrder << " | " <<"Stayed: "<< orders[i].time << " | " <<"Paid: "<< orders[i].bill << endl;
+    }
 }
 bool showMainMenu(CAFFE* orders, int& orderCount, int& maxId)
 {
@@ -38,11 +64,13 @@ bool showMainMenu(CAFFE* orders, int& orderCount, int& maxId)
     switch (choice)
     {
     case 1:
-        createOrder(orders, orderCount, maxId);
+        createOrderMenu(orders, orderCount, maxId);
         break;
     case 2:
-
+        showOrder(orders, orderCount, maxId);
+        break;
     }
+    return true;
 }
 int main()
 {
