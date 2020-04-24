@@ -20,7 +20,7 @@ struct CAFFE
     string clientOrder;
     string time;
     string bill;
-    int id=0;
+    int id=1;
 };
 int getOrderById(CAFFE* orders, int& orderCount, int id)
 {
@@ -56,6 +56,7 @@ void deleteOrder(CAFFE* orders, int& orderCount, int id)
     for (int i = index; i < orderCount; i++)
     {
         orders[i] = orders[i + 1];
+        orders[i].id--;
     }
     orderCount--;
 }
