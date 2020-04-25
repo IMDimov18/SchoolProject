@@ -11,16 +11,17 @@ enum dof
     Sun,
     Sat
 };
-
+//CRUD
 struct CAFFE
 {
-    string dof;
+    char dof[3];
     int table;
     string waiterName;
     string clientOrder;
     string time;
-    string bill;
+    int bill;
     int id=1;
+    float total = 0;
 };
 int getOrderById(CAFFE* orders, int& orderCount, int id)
 {
@@ -38,6 +39,18 @@ CAFFE getOrder(CAFFE* orders, int& orderCount, int id)
     int index = getOrderById(orders, orderCount, id);
     return orders[index];
 
+}
+float TotalPerDay(CAFFE* orders, int orderCount, char* dayOfWeek)
+{
+    float sum = 0;
+    for (int i = 0; i < orderCount; i++)
+    {
+        if (_strcmpi(orders[i].dof, dayOfWeek) == 0)
+        {
+            sum = sum + orders[i].bill;
+        }
+    }
+    return sum;
 }
 void createOrder(CAFFE* orders, int& orderCount, int& maxId, CAFFE newOrder)
 {
@@ -60,6 +73,7 @@ void deleteOrder(CAFFE* orders, int& orderCount, int id)
     }
     orderCount--;
 }
+/*-------------------------Presentation Layer-----------------------------*/
 void createOrderMenu(CAFFE* orders, int& orderCount, int& maxId)
 {
     CAFFE order;
@@ -138,6 +152,9 @@ void editOrderMenu(CAFFE* orders,int& orderCount)
         cin >> order.dof;
         updateOrder(orders, orderCount, Id, order);
         break;
+    default:
+        cout << "Invalid choice!" << endl;
+        break;
     }
 }
 void deleteOrderMenu(CAFFE* orders, int& orderCount, int& maxId)
@@ -146,6 +163,18 @@ void deleteOrderMenu(CAFFE* orders, int& orderCount, int& maxId)
     cout << "Enter order Id: ";
     cin >> orderId;
     deleteOrder(orders, orderCount, orderId);
+}
+void ReportMenu(CAFFE* orders, int& orderCount)
+{
+    int choice;
+    char dof[4];
+    float dofTotal;
+    cout << " Get total per day" << endl;
+    cout << "Enter day: ";
+    cin >> dof;
+
+    dofTotal = TotalPerDay(orders, orderCount, dof);
+    cout << "The total dor " << dof << " is: " << dofTotal << endl;
 }
 bool showMainMenu(CAFFE* orders, int& orderCount, int& maxId)
 {
@@ -172,6 +201,9 @@ bool showMainMenu(CAFFE* orders, int& orderCount, int& maxId)
         break;
     case 4:
         deleteOrderMenu(orders, orderCount,maxId);
+        break;
+    case 5:
+        ReportMenu(orders, orderCount);
         break;
     case 6:
         return false;
