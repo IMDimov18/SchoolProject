@@ -1,17 +1,6 @@
 #include <iostream>
 #include <string>
 using namespace std;
-enum dof
-{
-    Mon,
-    Tue,
-    Wed,
-    Thu,
-    Fri,
-    Sun,
-    Sat
-};
-//CRUD
 struct CAFFE
 {
     char dof[3];
@@ -23,6 +12,7 @@ struct CAFFE
     int id=1;
     float total = 0;
 };
+//CRUD
 int getOrderById(CAFFE* orders, int& orderCount, int id)
 {
     for (int i = 0; i < orderCount; i++)
@@ -73,6 +63,59 @@ void deleteOrder(CAFFE* orders, int& orderCount, int id)
     }
     orderCount--;
 }
+void ReportChoice1(CAFFE* orders, int& orderCount)
+{
+    
+    string dayOfWeek;
+    cout << "Enter the day of the week: ";
+    cin >> dayOfWeek;
+    for (int i = 0; i < orderCount; i++)
+    {
+        if (orders[i].dof == dayOfWeek)
+        {
+            cout << "Day: " << orders[i].dof << " | " << "Waiter Name:" << orders[i].waiterName << " | " << "Table: " << orders[i].table << " | " << "Order:" << orders[i].clientOrder << " | " << "Stayed: " << orders[i].time << " | " << "Paid: " << orders[i].bill << endl;
+        }
+    }
+}
+void ReportChoice2(CAFFE* orders, int& orderCount)
+{
+    int money;
+    cout << "enter the amount of money: ";
+    cin >> money;
+    for (int i = 0; i < orderCount; i++)
+    {
+        if (orders[i].bill > money)
+        {
+            cout << "Day: " << orders[i].dof << " | " << "Waiter Name:" << orders[i].waiterName << " | " << "Table: " << orders[i].table << " | " << "Order:" << orders[i].clientOrder << " | " << "Stayed: " << orders[i].time << " | " << "Paid: " << orders[i].bill << endl;
+        }
+    }
+}
+void ReportChoice3(CAFFE* orders, int& orderCount)
+{
+    int money;
+    cout << "enter the amount of money: ";
+    cin >> money;
+    for (int i = 0; i < orderCount; i++)
+    {
+        if (orders[i].bill < money)
+        {
+            cout << "Day: " << orders[i].dof << " | " << "Waiter Name:" << orders[i].waiterName << " | " << "Table: " << orders[i].table << " | " << "Order:" << orders[i].clientOrder << " | " << "Stayed: " << orders[i].time << " | " << "Paid: " << orders[i].bill << endl;
+        }
+    }
+}
+void ReportChoice4(CAFFE* orders, int& orderCount)
+{
+    string waiter;
+    cout << "Enter waiter/waitress name: ";
+    getline(cin, waiter);
+    for (int i = 0; i < orderCount; i++)
+    {
+        if (orders[i].waiterName == waiter)
+        {
+            cout << "Day: " << orders[i].dof << " | " << "Waiter Name:" << orders[i].waiterName << " | " << "Table: " << orders[i].table << " | " << "Order:" << orders[i].clientOrder << " | " << "Stayed: " << orders[i].time << " | " << "Paid: " << orders[i].bill << endl;
+        }
+    }
+}
 /*-------------------------Presentation Layer-----------------------------*/
 void createOrderMenu(CAFFE* orders, int& orderCount, int& maxId)
 {
@@ -81,7 +124,7 @@ void createOrderMenu(CAFFE* orders, int& orderCount, int& maxId)
     cin >> order.table;
     cout << endl;
     cout << "Waiter name: ";
-    getline(cin,order.waiterName);
+    cin >> order.waiterName;
     cout << endl;
     cout << "What did the client order?: ";
     getline(cin, order.clientOrder);
@@ -164,17 +207,24 @@ void deleteOrderMenu(CAFFE* orders, int& orderCount, int& maxId)
     cin >> orderId;
     deleteOrder(orders, orderCount, orderId);
 }
-void ReportMenu(CAFFE* orders, int& orderCount)
+void ReportMenu(CAFFE* orders, int& orderCount,int maxId)
 {
     int choice;
-    char dof[4];
-    float dofTotal;
-    cout << " Get total per day" << endl;
-    cout << "Enter day: ";
-    cin >> dof;
+    cout << "1. Show all orders from specific day " << endl;
+    cout << "2. Show all orders with orders over specific amount of money." << endl;
+    cout << "3. Show all orders with orders under specific amount of money." << endl;
+    cout << "4. Show all orders from specific waiter/waitress" << endl;
+    cout << "What is your choice?: ";
+    cin >> choice;
+    switch (choice)
+    {
+    case 1:
+        ReportChoice1(orders, orderCount);
+        break;
+    case 2:
+        break;
 
-    dofTotal = TotalPerDay(orders, orderCount, dof);
-    cout << "The total dor " << dof << " is: " << dofTotal << endl;
+    }
 }
 bool showMainMenu(CAFFE* orders, int& orderCount, int& maxId)
 {
@@ -203,7 +253,7 @@ bool showMainMenu(CAFFE* orders, int& orderCount, int& maxId)
         deleteOrderMenu(orders, orderCount,maxId);
         break;
     case 5:
-        ReportMenu(orders, orderCount);
+        ReportMenu(orders, orderCount,maxId);
         break;
     case 6:
         return false;
