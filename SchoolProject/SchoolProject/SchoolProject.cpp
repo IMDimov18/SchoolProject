@@ -107,7 +107,7 @@ void ReportChoice4(CAFFE* orders, int& orderCount)
 {
     string waiter;
     cout << "Enter waiter/waitress name: ";
-    getline(cin, waiter);
+    cin >> waiter;
     for (int i = 0; i < orderCount; i++)
     {
         if (orders[i].waiterName == waiter)
