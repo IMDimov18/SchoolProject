@@ -127,7 +127,7 @@ void createOrderMenu(CAFFE* orders, int& orderCount, int& maxId)
     cin >> order.waiterName;
     cout << endl;
     cout << "What did the client order?: ";
-    getline(cin, order.clientOrder);
+    cin>>order.clientOrder;
     cout << endl;
     cout << "For how long stayed the client?: ";
     cin >> order.time;
@@ -222,6 +222,13 @@ void ReportMenu(CAFFE* orders, int& orderCount,int maxId)
         ReportChoice1(orders, orderCount);
         break;
     case 2:
+        ReportChoice2(orders, orderCount);
+        break;
+    case 3:
+        ReportChoice3(orders, orderCount);
+        break;
+    case 4:
+        ReportChoice4(orders, orderCount);
         break;
 
     }
